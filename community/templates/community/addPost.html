@@ -1,0 +1,19 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<div class="container mt-3">
+    <div class="row" style="justify-content: center; align-items: center;">
+        <div class="col-md-8">
+            <h4 class="text-center alert alert-info">Add new Post</h4>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input class="btn btn-primary" type="submit" value="Add">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

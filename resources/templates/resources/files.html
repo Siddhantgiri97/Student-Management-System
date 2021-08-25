@@ -1,0 +1,52 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block script %}
+
+{% endblock script %}
+
+{% block content %}
+<div class="container">
+    {% if request.user.is_staff %}
+    <div class="row mt-4" style="justify-content: center; align-items: center;">
+        <div class="col-md-8">
+            <h4 class="alert alert-info text-center">Add New Files</h4>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Add File" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row m-2" style="justify-content: center; align-items: center;">
+        <div class="col-md-8 mt-3">
+            <div class="card card-body">
+                <form action="" method="GET">
+                    {{myFilter.form|crispy}}
+                    <button class="btn btn-primary btn-sm mt-2" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" style="justify-content: center; align-items: center;">
+        <div class="col-md-8 mt-3">
+            <h2 class="text-center m-2 p-2">Downloads</h2>
+            <hr>
+            <ul class="list-group">
+                {% for file in files %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <i class="bi bi-file-earmark me-2" style="font-size: 1.2rem;"></i>{{file.title}}
+                    </div>
+                    <span><a href="{{file.adminUpload.url}}" download="{{file.adminUpload.url}}"><i
+                                class="bi bi-file-arrow-down-fill" style="font-size: 1.4rem;"></i></a></span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

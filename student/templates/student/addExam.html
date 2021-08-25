@@ -1,0 +1,46 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container ">
+    <div class="row mt-4" style="justify-content: center; align-items: center;">
+        <div class="col-sm-8">
+            <h4 class="alert alert-info text-center">Add New Examination</h4>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" value="Add Exam" class="btn btn-primary">
+                <a class="btn btn-primary" href="{% url 'student' %}">Back</a>
+            </form>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <div class="row m-2">
+        <div class="col-md">
+            <h3 class="alert alert-success text-center">Recent Exams</h3>
+            <div class="card card-body">
+                <table class="">
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Subject</th>
+                        <th>Topic</th>
+                        <th>Total Marks</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for exam in exams %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{exam.subject}}</td>
+                        <td>{{exam.topic}}</td>
+                        <td>{{exam.total_marks}}</td>
+                        <td><a class="btn btn-primary" href="{% url 'add_result' exam.id %}">Add Result</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

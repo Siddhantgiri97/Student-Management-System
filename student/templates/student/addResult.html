@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row mt-4" style="justify-content: center; align-items: center;">
+        <div class="col-sm-8">
+            <div class="card card-body">
+                <h4 class="alert alert-info text-center">Add Result</h4>
+                <div class="col-md-6">
+                    <h3>Subject : {{exam.subject}}</h3>
+                    <h3>Topic : {{exam.topic}}</h3>
+                </div>
+                <form action="" method="POST" class="mt-2 p-2">
+                    {% csrf_token %}
+                    {{formset.management_form}}
+                    {% for form in formset %}
+                    {{form}}
+                    <hr>
+                    {% endfor %}
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                    <a class="btn btn-primary" href="{% url 'add_exam' %}">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="container my-3">
+    <div class="row" style="justify-content: center; align-items: center;">
+        <h3>Search results for "{{ query }}" : </h3>
+        <hr>
+        {% for post in results %}
+        <div class="col-10 d-lg-block card m-3">
+            <div class="p-4 d-flex flex-column position-static card-body">
+                <div class="d-inline-block ">
+
+                    {% if post.author.is_staff %}
+                    <img src="{% static 'images/tea.jpg' %}" alt=""
+                        style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                    <strong class="d-inline-block mb-2 ms-2 text-primary">{{post.author}}</strong>
+                    {% else %}
+                    <img src="{{post.author.student.image.url}}" alt=""
+                        style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                    <strong class="d-inline-block mb-2 ms-2 text-primary">{{post.author.student.name}}</strong>
+                    {% endif %}
+                    <span class="mb-1 ms-2 text-muted">{{post.date | naturaltime}}</span>
+                </div>
+
+                <h3 class="mb-0 mt-2">{{post.title}}</h3>
+                <p class="card-text mb-auto mt-2">{{post.snippet}}</p>
+            </div>
+            <img class="bd-placeholder-img w-100 mb-3" height="350" src="{{post.thumb.url}}">
+
+
+            <div class="m-2 p-2">
+                <a href="{% url 'community:view_post' post.id %}"><button class="btn btn-outline-primary btn-sm">Add
+                        Answer</button></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

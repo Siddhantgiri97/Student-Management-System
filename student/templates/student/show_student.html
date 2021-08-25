@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3">
+                <img src="{% static 'images/stars.png' %}" class="card-img-top" alt="..." style="position: relative;">
+                <div class="profile-wrapper" style="position: absolute;
+                border-radius: 50%;
+                top: 10rem;left: 2rem;
+                ">
+                    <img src="{{student.image.url}}" alt="" style="border-radius: 50%; width:20rem; height:20rem;">
+                </div>
+                <div class="card-body mt-5" style="top: 5rem;">
+                    <form class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" value="{{student.name}}" readonly>
+
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="class" class="form-label">Class</label>
+                            <input type="text" class="form-control" id="class" value="{{student.stu_class}}" readonly>
+                        </div>
+                        <div class=" col-md-6 mb-3">
+                            <label for="rollno" class="form-label">Roll No</label>
+                            <input type="text" class="form-control" id="rollno" value="{{student.rollNo}}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="batch" class="form-label">Batch</label>
+                            <input type="text" class="form-control" id="batch" value="{{student.batch}}" readonly>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="address" class="form-label">Address </label>
+                            <input type="text" class="form-control" id="address" value="{{student.address}}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">E-mail </label>
+                            <input type="email" class="form-control" id="email" value="{{student.email}}" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="contact" class="form-label">Contact No</label>
+                            <input type="text" class="form-control" id="contact" value="{{student.contact}}" readonly>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <div class="row m-2 p-2">
+        <h3 class="text-center m-2">Recent Test Results</h3>
+        <table class="">
+            <tr>
+                <th>Sr.No</th>
+                <th>Subject</th>
+                <th>Topic</th>
+                <th>Marks </th>
+            </tr>
+            {% for examresult in examresults %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{examresult.exam.subject}}</td>
+                <td>{{examresult.exam.topic}}</td>
+                <td>{{examresult.marks_obtained}} / {{examresult.exam.total_marks}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

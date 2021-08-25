@@ -1,0 +1,82 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="container my-3">
+    <div class="row" style="justify-content: center; align-items: center;">
+        <div class="col-10 d-lg-block card m-3">
+            <div class="p-4 d-flex flex-column position-static card-body">
+                <div class="d-inline-block ">
+
+                    {% if post.author.is_staff %}
+                    <img src="{% static 'images/tea.jpg' %}" alt=""
+                        style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                    <strong class="d-inline-block mb-2 ms-2 text-primary">{{post.author}}</strong>
+                    {% else %}
+                    <img src="{{post.author.student.image.url}}" alt=""
+                        style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                    <strong class="d-inline-block mb-2 ms-2 text-primary">{{post.author.student.name}}</strong>
+                    {% endif %}
+                    <span class="mb-1 ms-2 text-muted">{{post.date | naturaltime}}</span>
+                </div>
+
+                <h3 class="mb-0 mt-2">{{post.title}}</h3>
+                <p class="card-text mb-auto mt-2">{{post.body}}</p>
+            </div>
+            <img class="bd-placeholder-img w-100 mb-3" height="350" src="{{post.thumb.url}}">
+            <div class="container">
+                <h2> Comments ({{comments.count}})</h2>
+
+                {% if user.is_authenticated %}
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input class="btn btn-primary" type="submit" value="Add">
+                </form>
+                {% else %}
+                <h3>Please Login to Comment </h3>
+                {% endif %}
+
+
+                {% for comment in comments %}
+                <div class="row my-3">
+                    <div class="col-md-1  ">
+
+                        {% if comment.user.is_staff %}
+                        <img src="{% static 'images/tea.jpg' %}" alt=""
+                            style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                        {% else %}
+                        <img src="{{comment.user.student.image.url}}" alt=""
+                            style="width: 45px; height: 45px; border-radius: 50%;" class="me-2">
+                        {% endif %}
+
+                    </div>
+                    <div class="col-md-11">
+
+                        {% if comment.user.is_staff %}
+                        <b> {{comment.user}}</b>
+
+                        {% else %}
+                        <b> {{comment.user.student.name}}</b>
+                        {% endif %}
+
+                        {{comment.timestamp | naturaltime}}
+                        <div> {{comment.comment}}</div>
+
+                        {% if comment.thumb %}
+
+                        <img class="bd-placeholder-img w-100 mb-3 mt-2" height="350" src="{{comment.thumb.url}}">
+                        {% endif %}
+
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

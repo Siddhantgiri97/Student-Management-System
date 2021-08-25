@@ -1,0 +1,64 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container mb-3 mt-3">
+    <div class="row">
+        <div class="col-md-8 offset-4">
+
+            {% if request.user.is_staff %}
+            <a href="{% url 'add_student' %}"><button class="btn btn-outline-primary" type="submit">Add
+                    Student</button></a>
+            <a href="{% url 'add_exam' %}"><button class="btn btn-outline-primary" type="submit">Add Exam</button></a>
+            {% else %}
+            <a href="{% url 'show_student' user.student.id %}"><button class="btn btn-outline-primary"
+                    type="submit">Profile</button></a>
+            <a href="{% url 'update_student' user.student.id %}"><button type="submit"
+                    class="btn btn-outline-primary">Update</button></a>
+            <a href="{% url 'performance' user.student.id %}"><button type="submit"
+                    class="btn btn-outline-primary">Performance</button></a>
+            {% endif %}
+            <a href="{% url 'ranklist' %}"><button class="btn btn-outline-primary" type="submit">View
+                    Ranklist</button></a>
+            <a href="{% url 'view_notification' %}"><button class="btn btn-outline-primary"
+                    type="submit">Notifications</button></a>
+        </div>
+    </div>
+    <hr>
+
+
+
+
+    {% if request.user.is_staff %}
+    <h1 class="text-center">Pace Student's List</h1>
+    <hr>
+    <div class="row" style="justify-content: center;">
+
+        <div class="col-md-12 d-flex flex-wrap justify-content-center">
+            {% for student in students %}
+            <a href="{% url 'show_student' student.id %}" style="text-decoration: none;">
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="{{student.image.url}}" class="card-img-top" alt="..." style="height: 250px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{student.name}}</h5>
+                        <p class="card-text mb-2">{{student.stu_class}}</p>
+
+                        <a href="{% url 'update_student' student.id %}"><button type="submit"
+                                class="btn btn-primary btn-sm">Update</button></a>
+                        <a href="{% url 'performance' student.id %}"><button type="submit"
+                                class="btn btn-primary btn-sm">Performance</button></a>
+                        <form action="{% url 'deletedata' student.id %}" method="POST" class="d-inline ">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+                        </form>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock content %}
